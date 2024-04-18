@@ -13,7 +13,7 @@ const {
 //method for creating a user
 exports.registerUser = async (req, res) => {
   try {
-    const { email, usertype, password } = req.body;
+    const { email, username, password } = req.body;
     // check if user exists in our database
     const emailExist = await getUserByEmail(email);
     if (emailExist.length > 0) {
@@ -31,7 +31,7 @@ exports.registerUser = async (req, res) => {
     //store user details to database.
     const user = await saveUser(
       email,
-      usertype,
+      username,
       hashed_password,
       verification_token
     );
@@ -154,7 +154,7 @@ exports.verifyEmail = async (req, res) => {
       });
     }
 
-    const update_user = await verifyUserAccount(user.id);
+    const update_user = await verifyUserAccount(user.user_id);
 
     if (!update_user) {
       return res.status(400).json({
