@@ -3,16 +3,46 @@ import { Button } from "../../components/ui/button";
 import SignError from "../../components/ui/SignError";
 
 function Login(props) {
-  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [showPopover, setShowPopover] = useState(false);
 
   // a basic function to check id there an empty input field
-  function auth() {
-    if (user === "" || pass === "") {
+  async function auth() {
+    if (email === "" || pass === "") {
       setShowPopover(true); // Show popover if fields are not filled
     } else {
-      // Add your authentication logic here
+      try {
+        const response = await fetch(`http://localhost:3000/auth/loginUser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: pass,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to login");
+        }
+
+        // If sign up is successful, you can navigate to another page
+        // navigate("/Home");
+        // Replace "/home" with your target route
+
+        //set the inout field to empty values
+        setPass("");
+        setEmail("");
+
+        const res = await response.json();
+        console.log(res);
+        alert("User Login");
+      } catch (error) {
+        console.error("Error logining:", error);
+        // Handle error, e.g., show an error message
+      }
     }
   }
 
@@ -27,8 +57,8 @@ function Login(props) {
           type="text"
           placeholder="Email"
           className="w-full rounded-md px-4 py-2 mb-4 dark:bg-gray-200 dark:text-gray-800 focus:outline-none focus:ring focus:border-purple-600"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"

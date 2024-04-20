@@ -42,6 +42,7 @@ function SignUp(props) {
         setEmail("");
 
         const res = await response.json();
+        console.log(res);
         alert("User Created");
       } catch (error) {
         console.error("Error signing up:", error);
