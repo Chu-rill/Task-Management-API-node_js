@@ -24,8 +24,9 @@ function Login(props) {
           }),
         });
 
+        const res = await response.json();
         if (!response.ok) {
-          throw new Error("Failed to login");
+          throw new Error(res.message);
         }
 
         // If sign up is successful, you can navigate to another page
@@ -36,12 +37,17 @@ function Login(props) {
         setPass("");
         setEmail("");
 
-        const res = await response.json();
         console.log(res);
         alert("User Login");
       } catch (error) {
         console.error("Error logining:", error);
         // Handle error, e.g., show an error message
+        // Check if the error object has a message property
+        // if (error.message) {
+        //   console.log("Error message:", error.message);
+        // } else {
+        //   console.log("Error object:", error);
+        // }
       }
     }
   }

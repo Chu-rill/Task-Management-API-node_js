@@ -53,7 +53,7 @@ exports.sendEmailWithTemplate = async (email, data) => {
       html: emailTemplate({
         title: "Email verification",
         link: data.verification_link,
-        product: "Jumbay",
+        product: "TaskMinder",
       }),
     });
     console.log(`message sent: ${info.response}`);
