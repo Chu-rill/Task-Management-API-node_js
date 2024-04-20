@@ -1,25 +1,52 @@
 import React, { useState } from "react";
 import { Button } from "../../components/ui/button";
 import SignError from "../../components/ui/SignError";
-// import { useNavigate } from "react-router-dom";
 
 function SignUp(props) {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
   const [email, setEmail] = useState("");
   const [showPopover, setShowPopover] = useState(false);
-  // const navigate = useNavigate();
 
-  // a basic function to check id there an empty input field
-  function auth() {
+  async function auth() {
     if (user === "" || pass === "" || email === "") {
-      setShowPopover(true); // Show popover if fields are not filled
+      setShowPopover(true);
     } else {
-      // Assuming successful authentication (replace with your logic)
-      // console.log("Authentication successful!");
-      // Navigate to the desired page after successful authentication
-      // navigate("/Home");
-      // Replace "/home" with your target route
+      try {
+        const response = await fetch(
+          `http://localhost:3000/auth/registerUser`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: user,
+              password: pass,
+              email: email,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to sign up");
+        }
+
+        // If sign up is successful, you can navigate to another page
+        // navigate("/Home");
+        // Replace "/home" with your target route
+
+        //set the inout field to empty values
+        setUser("");
+        setPass("");
+        setEmail("");
+
+        const res = await response.json();
+        alert("User Created");
+      } catch (error) {
+        console.error("Error signing up:", error);
+        // Handle error, e.g., show an error message
+      }
     }
   }
 
