@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import SignError from "../../components/ui/SignError";
+import Loading from "../../components/Loading";
 
 function SignUp(props) {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
   const [email, setEmail] = useState("");
   const [showPopover, setShowPopover] = useState(false);
+  const [loading, setLoading] = useState(false); // Initialize loading state
+  const [success, setSuccess] = useState(false); // Initialize success state
 
   async function auth() {
     if (user === "" || pass === "" || email === "") {
       setShowPopover(true);
     } else {
+      setLoading(true); // Start loading
       try {
         const response = await fetch(
           `http://localhost:3000/auth/registerUser`,
@@ -27,26 +31,21 @@ function SignUp(props) {
             }),
           }
         );
-
+        const res = await response.json();
         if (!response.ok) {
-          throw new Error("Failed to sign up");
+          throw new Error(res.message);
         }
-
-        // If sign up is successful, you can navigate to another page
-        // navigate("/Home");
-        // Replace "/home" with your target route
-
-        //set the inout field to empty values
         setUser("");
         setPass("");
         setEmail("");
-
-        const res = await response.json();
+        setSuccess(true); // Set success state to true
         console.log(res);
         alert("User Created");
       } catch (error) {
         console.error("Error signing up:", error);
-        // Handle error, e.g., show an error message
+        setShowPopover(true);
+      } finally {
+        setLoading(false); // Stop loading
       }
     }
   }
@@ -54,6 +53,14 @@ function SignUp(props) {
   const closePopover = () => {
     setShowPopover(false);
   };
+
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        setSuccess(false);
+      }, 2000); // Show success message for 2 seconds
+    }
+  }, [success]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen overflow-y-auto">
@@ -88,6 +95,20 @@ function SignUp(props) {
           Sign Up
         </Button>
         <SignError isOpen={showPopover} onClose={closePopover} />
+        {loading && (
+          // <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+          //   <div className="text-white">Loading...</div>
+
+          // </div>
+          <div>
+            <Loading />
+          </div>
+        )}
+        {success && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-green-500 bg-opacity-50 z-50">
+            <div className="text-white">Sign up successful!</div>
+          </div>
+        )}
         <div className="flex justify-center mt-2">
           <p className="text-sm">
             Already have an account?{" "}
