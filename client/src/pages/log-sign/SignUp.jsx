@@ -100,13 +100,17 @@ function SignUp(props) {
           //   <div className="text-white">Loading...</div>
 
           // </div>
-          <div>
-            <Loading />
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
+            <div className="p-8 rounded-lg text-white">
+              <Loading />
+            </div>
           </div>
         )}
         {success && (
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-green-500 bg-opacity-50 z-50">
-            <div className="text-white">Sign up successful!</div>
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
+            <div className="bg-green-500  p-8 rounded-lg text-white">
+              Sign up successful!
+            </div>
           </div>
         )}
         <div className="flex justify-center mt-2">
