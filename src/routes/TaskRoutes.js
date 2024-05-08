@@ -13,4 +13,28 @@ taskRoutes.post(
   TaskController.addTask
 );
 
+taskRoutes.get(
+  "/getAllTask",
+  authenticationMiddleware.verifyToken,
+  TaskController.getAllTask
+);
+
+taskRoutes.delete(
+  "/delete",
+  authenticationMiddleware.verifyToken,
+  TaskController.deleteTask
+);
+
+taskRoutes.put(
+  "/update",
+  authenticationMiddleware.verifyToken,
+  TaskController.updateTask
+);
+
+taskRoutes.get(
+  "/getSingleTask",
+  authenticationMiddleware.verifyToken,
+  TaskController.getSingleTask
+);
+
 module.exports = taskRoutes;
