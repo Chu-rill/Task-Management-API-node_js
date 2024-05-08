@@ -20,9 +20,4 @@ authRoutes.post(
   AuthController.loginUser
 );
 
-authRoutes.put(
-  "/verify/:verification_token/:email",
-  AuthController.verifyEmail
-);
-
 module.exports = authRoutes;
