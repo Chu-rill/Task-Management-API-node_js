@@ -2,6 +2,8 @@ const bcryptjs = require("bcryptjs");
 const { getUserByEmail, saveUser } = require("../services/UserService");
 const randomize = require("randomatic");
 const jwt = require("jsonwebtoken");
+const NodeCache = require("node-cache");
+const myCache = new NodeCache();
 
 //method for creating a user
 exports.registerUser = async (req, res) => {
@@ -90,4 +92,28 @@ exports.loginUser = async (req, res) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+exports.getUserFromNodeCache = async (req, res) => {
+  const { email } = req.body;
+  // first check if data is in cache
+  let userData = myCache.get(email);
+  if (!userData) {
+    //fetch from database
+    const userData = await getUserByEmail(email);
+    if (!userData) {
+      return res.status(400).json({
+        status: false,
+        data: {},
+        message: "user not found",
+      });
+    }
+    //store user data in cache
+    myCache.set(email, userData, 600);
+  }
+  return res.status(200).json({
+    status: true,
+    data: userData,
+    message: "request successful",
+  });
 };
