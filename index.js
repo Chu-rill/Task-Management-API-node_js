@@ -3,7 +3,7 @@ const dotenv = require("dotenv").config();
 const cors = require("cors");
 const authRoutes = require("./src/routes/AuthRoutes");
 const taskRoutes = require("./src/routes/TaskRoutes");
-const port = process.env.PORT || 4006;
+const port = process.env.PORT;
 
 const app = express();
 app.use(express.json());
