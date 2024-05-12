@@ -16,10 +16,9 @@ exports.saveUser = async (email, username, password, verification_token) => {
   return result;
 };
 
-exports.deleteUser = async (id, user_id) => {
-  const [result] = await connection.execute(
-    "DELETE FROM users WHERE  id = ? AND user_id = ?",
-    [id, user_id]
-  );
+exports.deleteUser = async (user_id) => {
+  const [result] = await connection.execute("DELETE FROM users WHERE id = ?", [
+    user_id,
+  ]);
   return result;
 };

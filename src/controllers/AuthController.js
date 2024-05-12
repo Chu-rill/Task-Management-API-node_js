@@ -120,9 +120,7 @@ exports.getUserFromNodeCache = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const { id } = req.body;
-
-    const products = await deleteTask(id, req.user.id);
+    const products = await deleteTask(req.user.id);
     if (!products) {
       return res.status(400).json({
         status: false,
