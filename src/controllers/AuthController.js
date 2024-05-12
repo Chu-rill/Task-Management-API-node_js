@@ -118,23 +118,23 @@ exports.getUserFromNodeCache = async (req, res) => {
   });
 };
 
-exports.deleteUser = async (req, res) => {
-  try {
-    const products = await deleteTask(req.user.id);
-    if (!products) {
-      return res.status(400).json({
-        status: false,
-        data: {},
-        message: "Something went wrong",
-      });
-    }
+// exports.deleteUser = async (req, res) => {
+//   try {
+//     const products = await deleteTask(req.user.id);
+//     if (!products) {
+//       return res.status(400).json({
+//         status: false,
+//         data: {},
+//         message: "Something went wrong",
+//       });
+//     }
 
-    return res.status(200).json({
-      status: true,
-      data: products,
-      message: "Successful",
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     return res.status(200).json({
+//       status: true,
+//       data: products,
+//       message: "Successful",
+//     });
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
