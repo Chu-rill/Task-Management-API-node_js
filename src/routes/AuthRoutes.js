@@ -2,6 +2,7 @@
 const express = require("express");
 const AuthController = require("../controllers/AuthController");
 const validator = require("../middlewares/ValidationMiddleware");
+const authenticationMiddleware = require("../middlewares/Authenticate");
 const {
   RegisterValidation,
   loginValidation,
@@ -18,6 +19,12 @@ authRoutes.post(
   "/loginUser",
   validator.validateSchema(loginValidation),
   AuthController.loginUser
+);
+
+authRoutes.delete(
+  "/delete",
+  authenticationMiddleware.verifyToken,
+  AuthController.deleteUser
 );
 
 module.exports = authRoutes;

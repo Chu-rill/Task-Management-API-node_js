@@ -117,3 +117,26 @@ exports.getUserFromNodeCache = async (req, res) => {
     message: "request successful",
   });
 };
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const products = await deleteTask(id, req.user.id);
+    if (!products) {
+      return res.status(400).json({
+        status: false,
+        data: {},
+        message: "Something went wrong",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: products,
+      message: "Successful",
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
