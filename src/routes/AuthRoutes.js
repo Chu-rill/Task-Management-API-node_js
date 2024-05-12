@@ -2,7 +2,7 @@
 const express = require("express");
 const AuthController = require("../controllers/AuthController");
 const validator = require("../middlewares/ValidationMiddleware");
-// const authenticationMiddleware = require("../middlewares/Authenticate");
+const authenticationMiddleware = require("../middlewares/Authenticate");
 const {
   RegisterValidation,
   loginValidation,
@@ -21,10 +21,10 @@ authRoutes.post(
   AuthController.loginUser
 );
 
-// authRoutes.delete(
-//   "/deleteUser",
-//   authenticationMiddleware.verifyToken,
-//   AuthController.deleteUser
-// );
+authRoutes.delete(
+  "/deleteUser",
+  authenticationMiddleware.verifyToken,
+  AuthController.deleteUser
+);
 
 module.exports = authRoutes;
