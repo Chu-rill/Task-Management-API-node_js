@@ -22,7 +22,7 @@ authRoutes.post(
 );
 
 authRoutes.delete(
-  "/delete",
+  "/deleteUser",
   authenticationMiddleware.verifyToken,
   AuthController.deleteUser
 );
