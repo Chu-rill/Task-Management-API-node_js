@@ -30,7 +30,7 @@ exports.deleteTask = async (id, user_id) => {
 
 exports.updateTask = async (user_id, id, task, description, category) => {
   const [result] = await connection.execute(
-    "UPDATE task SET task = ?, description = ?,category = ? WHERE   id = ? AND user_id = ?",
+    "UPDATE task SET task = ?, description = ?,category = ?,  status = 'pending' WHERE   id = ? AND user_id = ?",
     [task, description, category, id, user_id]
   );
   return result;
@@ -40,6 +40,14 @@ exports.getSingleTask = async (user_id, id) => {
   const result = await connection.execute(
     "SELECT * FROM task WHERE user_id = ? AND id = ?",
     [user_id, id]
+  );
+  return result;
+};
+
+exports.updateStatus = async (id, user_id) => {
+  const result = await connection.execute(
+    "UPDATE task SET status = 'completed' WHERE id = ? AND user_id = ?",
+    [id, user_id]
   );
   return result;
 };

@@ -30,6 +30,11 @@ taskRoutes.put(
   authenticationMiddleware.verifyToken,
   TaskController.updateTask
 );
+taskRoutes.put(
+  "/updateStatus",
+  authenticationMiddleware.verifyToken,
+  TaskController.updateStatus
+);
 
 taskRoutes.get(
   "/getSingleTask",

@@ -4,6 +4,7 @@ const {
   deleteTask,
   updateTask,
   getSingleTask,
+  updateStatus,
 } = require("../services/TaskService");
 
 exports.addTask = async (req, res) => {
@@ -121,6 +122,31 @@ exports.getSingleTask = async (req, res) => {
       status: true,
       data: result,
       message: "Successful",
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.updateStatus = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const products = await updateStatus(id, req.user.id);
+    console.log(id);
+    console.log(req.user.id);
+    if (!products) {
+      return res.status(400).json({
+        status: false,
+        data: {},
+        message: "Something went wrong",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: products,
+      message: "Status Updated",
     });
   } catch (error) {
     console.error(error);
